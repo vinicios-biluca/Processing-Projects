@@ -1,0 +1,152 @@
+var Spinner = (function() {
+function Spinner() {
+var $this_1 = this;
+function $superCstr(){$p.extendClassChain($this_1)}
+$this_1.R = 0;
+$this_1.G = 0;
+$this_1.B = 0;
+function show$0() {
+$p.translate(-$p.width/2, -$p.height/2);
+
+    $this_1.$self.showBody();
+    $this_1.$self.showCentralRoller();
+}
+$p.addMethod($this_1, 'show', show$0, false);
+function showBody$0() {
+var xi =  $p.width/2;
+    var yi =  $p.height/2;
+
+    var xf = 0,yf = 0,xm = 0,ym = 0;
+
+    $p.stroke($this_1.R, $this_1.G, $this_1.B);
+    $p.strokeWeight(20);
+    $p.ellipse(xi, yi, 80, 80);
+
+    var angle = 0;
+    var radius =  90;
+    var gap =  58;
+
+    for (var i =  1;  i <= 3;  i++) {
+$p.strokeWeight(60);
+      $p.stroke($this_1.R, $this_1.G, $this_1.B);
+
+      angle = $p.radians(120 * i);
+
+      xf = ($p.sin(angle) * radius); 
+      yf = ($p.cos(angle) * radius);
+
+      xm = ($p.sin(angle) * gap); 
+      ym = ($p.cos(angle) * gap);
+
+      $p.line(xi + xm, yi + ym, xi + xf, yi + yf);
+
+      $this_1.$self.showRoller(xi + xf, yi + yf);
+}
+}
+$p.addMethod($this_1, 'showBody', showBody$0, false);
+function showCentralRoller$0() {
+for (var i =  1;  i <= 7;  i++) {
+var xi = 0,yi = 0,xf = 0,yf = 0,angle = 0,radius = 0;
+      xi = $p.width/2;
+      yi = $p.height/2;
+      angle = $p.radians(51 * i);
+      radius = 22;
+
+      xf = ($p.sin(angle) * radius); 
+      yf = ($p.cos(angle) * radius);
+
+      $p.fill(128);
+      $p.noStroke();
+      $p.strokeWeight(8);
+      $p.ellipse(xi + xf, yi + yf, 10, 10);
+}
+
+    $p.fill(255, 1);
+    $p.stroke(50);
+    $p.strokeWeight(8);
+    $p.ellipse($p.width/2, $p.height/2, 60, 60);
+
+    $p.fill($this_1.R, $this_1.G, $this_1.B);
+    $p.stroke(50);
+    $p.strokeWeight(8);
+    $p.ellipse($p.width/2, $p.height/2, 30, 30);
+}
+$p.addMethod($this_1, 'showCentralRoller', showCentralRoller$0, false);
+function showRoller$2(xi, yi) {
+$p.fill(0, 1);
+    $p.stroke($this_1.R, $this_1.G, $this_1.B);
+    $p.strokeWeight(20);
+    $p.ellipse(xi, yi, 80, 80);
+
+    $p.fill(255);
+    $p.stroke(50);
+    $p.strokeWeight(8);
+    $p.ellipse(xi, yi, 60, 60);
+
+    for (var i =  1;  i <= 7;  i++) {
+var xf = 0,yf = 0,angle = 0,radius = 0;
+
+      angle = $p.radians(51 * i);
+      radius = 22;
+
+      xf = ($p.sin(angle) * radius); 
+      yf = ($p.cos(angle) * radius);
+
+      $p.fill(128);
+      $p.noStroke();
+      $p.ellipse(xi + xf, yi + yf, 10, 10);
+}
+
+    $p.fill($this_1.R, $this_1.G, $this_1.B);
+    $p.stroke(50);
+    $p.strokeWeight(8);
+    $p.ellipse(xi, yi, 30, 30);
+}
+$p.addMethod($this_1, 'showRoller', showRoller$2, false);
+function $constr_3(R, G, B){
+$superCstr();
+
+$this_1.R = R;
+    $this_1.G = G;
+    $this_1.B = B;
+}
+
+function $constr() {
+if(arguments.length === 3) { $constr_3.apply($this_1, arguments); } else $superCstr();
+}
+$constr.apply(null, arguments);
+}
+return Spinner;
+})();
+$p.Spinner = Spinner;
+
+function setup() {
+$p.size(400, 400);
+}
+$p.setup = setup;
+
+var i =  1;
+var angle =  0;
+
+function draw() {
+$p.background(255);
+
+  $p.pushMatrix();
+  $p.translate($p.width/2, $p.height/2);
+  $p.rotate($p.radians(angle));
+  var spinner =  new Spinner(255, 0, 0);
+  spinner.show();
+
+  if ($p.mouseX > ($p.width/2)) {
+angle = angle + ($p.mouseY * 0.15);
+} else {
+angle = angle + ($p.mouseY * 0.15) * (-1);
+}
+
+  $p.popMatrix();
+
+  $p.fill(0);
+  $p.textSize(18);
+  $p.text("Velocidade: " + ($p.mouseY * 0.15)/60*100 + "%", 10, 30);
+}
+$p.draw = draw;
